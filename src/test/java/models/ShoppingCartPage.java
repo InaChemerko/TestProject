@@ -9,7 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ShoppingCartPage extends BaseHeaderPage{
+public class ShoppingCartPage extends BaseHeaderPage {
 
     @FindBy(xpath = "//div[contains(@class,'productList')]")
     private WebElement productList;
@@ -36,10 +36,11 @@ public class ShoppingCartPage extends BaseHeaderPage{
         super(driver);
     }
 
-    public ShoppingCartPage loadProductList() {
-        getWait5().until(ExpectedConditions.visibilityOf(productList));
-        return this;
-    }
+  /* public ShoppingCartPage loadProductList(WebElement element) {
+      getWait5().until(ExpectedConditions.visibilityOf(element));
+    return this;
+}
+*/
 
     public ShoppingCartPage applyDiscount() {
         discountLink.click();
@@ -52,13 +53,17 @@ public class ShoppingCartPage extends BaseHeaderPage{
         return this;
     }
 
-    public boolean getInvalidMessage(){
-        return invalidMessage.isDisplayed();
+    public String getInvalidMessage() {
+        return invalidMessage.getText();
     }
 
-    public List<String> getProductItems() {
-        return productItem.stream()
+    public List<WebElement> getProductItems() {
+        TestUtils.loadProductList(getDriver(), productList);
+
+       /* return productItem.stream()
                 .map(WebElement::getText)
                 .collect(Collectors.toList());
+                */
+        return productItem;
     }
 }
